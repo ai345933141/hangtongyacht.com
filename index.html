@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>HANGTONG YACHT - Premium Yacht Manufacturer</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; color: #1a1a2e; background: #f5f7fa; overflow-x: hidden; }
+
+/* ========== 导航栏 ========== */
+.navbar { position: fixed; top: 0; width: 100%; background: linear-gradient(135deg, #0f1f3d 0%, #1a3a5c 100%); z-index: 1000; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+.logo { color: #c9a84c; font-size: 20px; font-weight: 800; letter-spacing: 2px; flex-shrink: 0; }
+.logo span { color: #fff; }
+.nav-links { display: flex; gap: 16px; }
+.nav-links a { color: #fff; text-decoration: none; font-size: 13px; opacity: 0.9; transition: 0.3s; white-space: nowrap; }
+.nav-links a:hover { color: #c9a84c; }
+.nav-contact { background: #c9a84c; color: #0f1f3d; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 12px; text-decoration: none; white-space: nowrap; }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+.hamburger span { width: 22px; height: 2px; background: #fff; border-radius: 2px; transition: 0.3s; }
+.nav-mobile { display: none; position: fixed; top: 60px; left: 0; right: 0; background: linear-gradient(135deg, #0f1f3d 0%, #1a3a5c 100%); padding: 20px; flex-direction: column; gap: 16px; z-index: 999; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+.nav-mobile.open { display: flex; }
+.nav-mobile a { color: #fff; text-decoration: none; font-size: 16px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.nav-mobile .nav-contact { text-align: center; margin-top: 8px; }
+
+/* ========== 英雄区 ========== */
+.hero { margin-top: 60px; position: relative; height: 92vw; min-height: 420px; max-height: 90vh; overflow: hidden; }
+.hero-slider { height: 100%; display: flex; transition: transform 0.6s ease; }
+.hero-slide { min-width: 100%; height: 100%; position: relative; display: flex; align-items: center; justify-content: center; }
+.hero-slide img { width: 100%; height: 100%; object-fit: cover; position: absolute; }
+.hero-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(15,31,61,0.85) 0%, rgba(45,90,135,0.6) 100%); z-index: 1; }
+.hero-content { position: relative; z-index: 2; text-align: center; color: #fff; max-width: 800px; padding: 20px; }
+.hero-badge { display: inline-block; background: #c9a84c; color: #0f1f3d; padding: 6px 18px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 2px; margin-bottom: 16px; }
+.hero-content h1 { font-size: clamp(32px, 7vw, 56px); font-weight: 800; margin-bottom: 12px; text-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+.hero-content p { font-size: clamp(14px, 2.5vw, 20px); opacity: 0.9; margin-bottom: 24px; line-height: 1.6; }
+.hero-stats { display: flex; gap: clamp(20px, 5vw, 50px); justify-content: center; margin-top: 30px; flex-wrap: wrap; }
+.hero-stat { text-align: center; }
+.hero-stat .num { font-size: clamp(28px, 6vw, 42px); font-weight: 800; color: #c9a84c; }
+.hero-stat .lbl { font-size: 11px; letter-spacing: 1px; opacity: 0.8; margin-top: 4px; }
+
+/* 轮播控制 */
+.slider-dots { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 10; }
+.slider-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: 0.3s; }
+.slider-dot.active { background: #c9a84c; transform: scale(1.3); }
+.slider-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; background: rgba(255,255,255,0.2); border: none; border-radius: 50%; color: #fff; font-size: 22px; cursor: pointer; z-index: 10; transition: 0.3s; display: flex; align-items: center; justify-content: center; padding: 0; }
+.slider-arrow:hover { background: #c9a84c; }
+.slider-arrow.prev { left: 12px; }
+.slider-arrow.next { right: 12px; }
+
+/* ========== 公司介绍 ========== */
+.about-section { background: #fff; padding: clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px); }
+.about-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(30px, 5vw, 60px); align-items: center; }
+.about-content h2 { font-size: clamp(26px, 4vw, 36px); color: #0f1f3d; margin-bottom: 16px; }
+.about-content h2 span { color: #c9a84c; }
+.about-content p { font-size: clamp(14px, 1.8vw, 16px); line-height: 1.8; color: #4a5568; margin-bottom: 20px; }
+.about-features { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.about-feature { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: #f8f9fc; border-radius: 8px; }
+.about-feature .icon { width: 38px; height: 38px; background: linear-gradient(135deg, #c9a84c, #d4a84c); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #0f1f3d; font-size: 16px; flex-shrink: 0; }
+.about-feature .text { font-size: 13px; font-weight: 600; color: #0f1f3d; }
+.about-images { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.about-images img { width: 100%; height: 160px; object-fit: cover; border-radius: 12px; }
+
+/* ========== 分类导航 ========== */
+.category-nav { background: #0f1f3d; padding: clamp(40px, 8vw, 60px) clamp(16px, 4vw, 40px); }
+.category-nav h2 { text-align: center; color: #fff; font-size: clamp(24px, 4vw, 32px); margin-bottom: 30px; }
+.category-nav h2 span { color: #c9a84c; }
+.category-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.category-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 20px 12px; text-align: center; cursor: pointer; transition: 0.3s; }
+.category-card:hover { background: #c9a84c; transform: translateY(-5px); }
+.category-card .cat-icon { width: 54px; height: 54px; background: rgba(201,168,76,0.2); border-radius: 50%; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 26px; }
+.category-card:hover .cat-icon { background: rgba(15,31,61,0.3); }
+.category-card h3 { color: #fff; font-size: 14px; margin-bottom: 6px; }
+.category-card:hover h3 { color: #0f1f3d; }
+.category-card p { color: rgba(255,255,255,0.7); font-size: 11px; }
+.category-card:hover p { color: #0f1f3d; }
+
+/* ========== 船型展示 ========== */
+.yacht-section { padding: clamp(40px, 8vw, 80px) clamp(12px, 3vw, 40px); background: #f5f7fa; }
+.yacht-section h2 { text-align: center; font-size: clamp(26px, 4vw, 36px); color: #0f1f3d; margin-bottom: clamp(30px, 5vw, 50px); }
+.yacht-section h2 span { color: #c9a84c; }
+.yacht-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: clamp(16px, 3vw, 30px); }
+.yacht-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 6px 24px rgba(0,0,0,0.08); transition: 0.3s; cursor: pointer; }
+.yacht-card:hover { transform: translateY(-8px); box-shadow: 0 16px 48px rgba(0,0,0,0.15); }
+.yacht-card-img { height: 200px; position: relative; overflow: hidden; }
+.yacht-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+.yacht-card:hover .yacht-card-img img { transform: scale(1.08); }
+.yacht-card-badge { position: absolute; top: 12px; left: 12px; background: #c9a84c; color: #0f1f3d; padding: 4px 12px; border-radius: 16px; font-size: 10px; font-weight: 700; }
+.yacht-card-price { position: absolute; bottom: 12px; right: 12px; background: rgba(15,31,61,0.9); color: #c9a84c; padding: 4px 12px; border-radius: 16px; font-size: 12px; font-weight: 700; }
+.yacht-card-body { padding: 20px; }
+.yacht-card-body h3 { font-size: 17px; color: #0f1f3d; margin-bottom: 6px; }
+.yacht-card-body .size { font-size: 13px; color: #6b7280; margin-bottom: 12px; }
+.yacht-specs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.yacht-spec-tag { background: #f0f4f8; padding: 3px 10px; border-radius: 12px; font-size: 11px; color: #4a5568; }
+.yacht-card-btn { display: inline-block; background: linear-gradient(135deg, #0f1f3d, #1a3a5c); color: #fff; padding: 10px 24px; border-radius: 20px; text-decoration: none; font-weight: 600; font-size: 13px; transition: 0.3s; }
+.yacht-card-btn:hover { background: #c9a84c; color: #0f1f3d; }
+
+/* ========== 联系方式 ========== */
+.contact-section { background: linear-gradient(135deg, #0f1f3d 0%, #1a3a5c 100%); padding: clamp(40px, 8vw, 80px) clamp(16px, 4vw, 40px); }
+.contact-section h2 { text-align: center; color: #fff; font-size: clamp(26px, 4vw, 36px); margin-bottom: clamp(30px, 5vw, 50px); }
+.contact-section h2 span { color: #c9a84c; }
+.contact-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 3vw, 30px); }
+.contact-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: clamp(24px, 4vw, 35px); text-align: center; }
+.contact-card .icon { width: 60px; height: 60px; background: #c9a84c; border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 26px; color: #0f1f3d; }
+.contact-card h3 { color: #fff; font-size: 16px; margin-bottom: 8px; }
+.contact-card p { color: rgba(255,255,255,0.8); font-size: 13px; line-height: 1.6; }
+.contact-card a { color: #c9a84c; text-decoration: none; font-size: 16px; font-weight: 700; }
+
+/* ========== 页脚 ========== */
+.footer { background: #0a1628; padding: clamp(24px, 5vw, 40px) clamp(16px, 4vw, 40px); text-align: center; color: rgba(255,255,255,0.6); font-size: 12px; }
+.footer-logo { color: #c9a84c; font-size: 22px; font-weight: 800; margin-bottom: 12px; }
+
+/* ========== 详情页 ========== */
+.detail-page { display: none; }
+.detail-header { background: linear-gradient(135deg, #0f1f3d 0%, #1a3a5c 100%); padding: 100px clamp(16px, 4vw, 40px) 50px; text-align: center; color: #fff; }
+.detail-header h1 { font-size: clamp(28px, 5vw, 42px); margin-bottom: 12px; }
+.detail-header .subtitle { font-size: clamp(14px, 2.5vw, 18px); opacity: 0.9; margin-bottom: 16px; }
+.detail-header .tags { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.detail-header .tag { background: rgba(201,168,76,0.3); padding: 6px 16px; border-radius: 20px; font-size: 12px; }
+
+/* ========== 图片轮播（详情页） ========== */
+.gallery { padding: clamp(24px, 5vw, 40px); background: #fff; }
+.gallery-slider-wrap { position: relative; max-width: 900px; margin: 0 auto; }
+.gallery-slider { position: relative; max-width: 900px; margin: 0 auto; overflow: hidden; border-radius: 16px; touch-action: pan-y; }
+.gallery-track { display: flex; transition: transform 0.4s ease; will-change: transform; }
+.gallery-slide { min-width: 100%; position: relative; cursor: zoom-in; overflow: hidden; }
+.gallery-slide img { width: 100%; height: clamp(240px, 56vw, 500px); object-fit: cover; display: block; transition: transform 0.3s; }
+.gallery-slide:active img { transform: scale(0.98); }
+
+/* 图片计数 */
+.gallery-counter { position: absolute; bottom: 12px; right: 12px; background: rgba(15,31,61,0.85); color: #c9a84c; padding: 5px 12px; border-radius: 16px; font-size: 12px; font-weight: 700; z-index: 5; pointer-events: none; }
+
+/* 轮播箭头 */
+.gallery-controls { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; display: flex; justify-content: space-between; padding: 0 12px; pointer-events: none; z-index: 5; }
+.gallery-btn { width: 42px; height: 42px; background: rgba(255,255,255,0.9); border: none; border-radius: 50%; font-size: 22px; cursor: pointer; transition: 0.3s; pointer-events: auto; display: flex; align-items: center; justify-content: center; padding: 0; line-height: 1; }
+.gallery-btn:hover, .gallery-btn:active { background: #c9a84c; }
+
+/* 指示点 */
+.gallery-dots { display: flex; justify-content: center; gap: 8px; padding: 16px 0 8px; flex-wrap: wrap; }
+.gallery-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(15,31,61,0.25); cursor: pointer; transition: 0.3s; }
+.gallery-dot.active { background: #c9a84c; transform: scale(1.3); }
+
+/* 缩略图条 */
+.gallery-thumbs { max-width: 900px; margin: 0 auto; padding: 0 clamp(12px, 3vw, 40px); }
+.gallery-thumbs h4 { font-size: 13px; color: #0f1f3d; margin-bottom: 10px; }
+.gallery-thumbs-track { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.gallery-thumbs-track::-webkit-scrollbar { display: none; }
+.gallery-thumb { flex-shrink: 0; width: 72px; height: 54px; border-radius: 8px; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: 0.3s; opacity: 0.6; background: #e8ecf4; }
+.gallery-thumb.active { border-color: #c9a84c; opacity: 1; }
+.gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ========== 视频展示区 ========== */
+.video-section { padding: clamp(24px, 5vw, 40px) clamp(16px, 4vw, 40px); background: #fff; }
+.video-section h2 { text-align: center; font-size: clamp(22px, 4vw, 32px); color: #0f1f3d; margin-bottom: clamp(20px, 4vw, 40px); }
+.video-section h2 span { color: #c9a84c; }
+.video-grid { max-width: 900px; margin: 0 auto; display: grid; gap: 20px; }
+.video-card { background: #f8f9fc; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+.video-player-wrap { position: relative; cursor: pointer; }
+.video-player-wrap video { width: 100%; height: clamp(220px, 50vw, 420px); object-fit: cover; display: block; background: #0f1f3d; }
+.video-play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; background: rgba(201,168,76,0.9); border: none; border-radius: 50%; color: #0f1f3d; font-size: 30px; cursor: pointer; z-index: 5; display: flex; align-items: center; justify-content: center; transition: 0.3s; pointer-events: none; }
+.video-play-btn::after { content: '\25B6'; margin-left: 4px; }
+.video-play-btn.playing { display: none; }
+.video-info { padding: 16px 20px; }
+.video-info h3 { font-size: 16px; color: #0f1f3d; margin-bottom: 6px; }
+.video-info p { font-size: 13px; color: #6b7280; }
+.video-no-content { text-align: center; padding: 40px 20px; color: #9ca3af; font-size: 14px; }
+.video-no-content .icon { font-size: 40px; margin-bottom: 12px; opacity: 0.5; }
+.video-placeholder { width: 100%; height: clamp(220px, 50vw, 420px); background: linear-gradient(135deg, #0f1f3d, #1a3a5c); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; cursor: pointer; }
+.video-placeholder .vp-icon { font-size: 48px; margin-bottom: 12px; }
+.video-placeholder .vp-text { font-size: 14px; opacity: 0.8; }
+.video-placeholder:hover .vp-icon { transform: scale(1.1); transition: transform 0.3s; }
+
+/* ========== 配置表格 ========== */
+.specs-section { padding: clamp(32px, 6vw, 60px) clamp(16px, 4vw, 40px); background: #f5f7fa; }
+.specs-section h2 { text-align: center; font-size: clamp(22px, 4vw, 32px); color: #0f1f3d; margin-bottom: clamp(20px, 4vw, 40px); }
+.specs-table { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 6px 24px rgba(0,0,0,0.08); }
+.specs-table table { width: 100%; border-collapse: collapse; }
+.specs-table th { background: #0f1f3d; color: #fff; padding: 14px 20px; text-align: left; font-size: 13px; }
+.specs-table td { padding: 12px 20px; border-bottom: 1px solid #e8ecf4; font-size: 13px; }
+.specs-table tr:last-child td { border-bottom: none; }
+.specs-table tr:nth-child(even) td { background: #f8f9fc; }
+.specs-table td:first-child { font-weight: 600; color: #0f1f3d; min-width: 140px; }
+
+/* ========== 特点 ========== */
+.features-section { padding: clamp(32px, 6vw, 60px) clamp(16px, 4vw, 40px); background: #fff; }
+.features-section h2 { text-align: center; font-size: clamp(22px, 4vw, 32px); color: #0f1f3d; margin-bottom: clamp(20px, 4vw, 40px); }
+.features-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(14px, 3vw, 25px); }
+.feature-card { background: #f8f9fc; border-radius: 14px; padding: clamp(20px, 4vw, 30px); text-align: center; }
+.feature-card .icon { width: 50px; height: 50px; background: linear-gradient(135deg, #c9a84c, #d4a84c); border-radius: 50%; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.feature-card h3 { font-size: 14px; color: #0f1f3d; margin-bottom: 6px; }
+.feature-card p { font-size: 12px; color: #6b7280; line-height: 1.5; }
+
+/* ========== 详情页联系方式 ========== */
+.detail-contact { padding: clamp(32px, 6vw, 60px) clamp(16px, 4vw, 40px); background: linear-gradient(135deg, #0f1f3d 0%, #1a3a5c 100%); text-align: center; }
+.detail-contact h2 { color: #fff; font-size: clamp(22px, 4vw, 32px); margin-bottom: 24px; }
+.detail-contact .contact-methods { display: flex; justify-content: center; gap: clamp(20px, 5vw, 40px); flex-wrap: wrap; }
+.detail-contact .method { text-align: center; }
+.detail-contact .method-icon { width: 52px; height: 52px; background: #c9a84c; border-radius: 50%; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: #0f1f3d; }
+.detail-contact .method h4 { color: #fff; font-size: 14px; margin-bottom: 4px; }
+.detail-contact .method p { color: rgba(255,255,255,0.8); font-size: 13px; }
+.back-btn { position: fixed; top: 76px; left: 16px; background: #c9a84c; color: #0f1f3d; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-weight: 600; font-size: 13px; z-index: 1001; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+
+/* ========== 全屏预览 ========== */
+.fullscreen-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.96); z-index: 9999; display: none; flex-direction: column; align-items: center; justify-content: center; }
+.fullscreen-overlay.active { display: flex; }
+.fullscreen-img-wrap { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.fullscreen-img { max-width: 100%; max-height: 100%; object-fit: contain; transform-origin: center center; transition: transform 0.2s ease-out; cursor: grab; user-select: none; -webkit-user-drag: none; }
+.fullscreen-img:active { cursor: grabbing; }
+.fullscreen-toolbar { position: fixed; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); z-index: 5; }
+.fullscreen-close { width: 40px; height: 40px; background: rgba(255,255,255,0.15); border: none; border-radius: 50%; color: #fff; font-size: 26px; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; }
+.fullscreen-counter { color: #c9a84c; font-size: 15px; font-weight: 700; }
+.fullscreen-zoom { color: #fff; font-size: 12px; background: rgba(255,255,255,0.15); border: none; border-radius: 12px; padding: 6px 14px; cursor: pointer; }
+.fullscreen-navs { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 16px; align-items: center; z-index: 5; }
+.fullscreen-nav { width: 46px; height: 46px; background: rgba(255,255,255,0.15); border: none; border-radius: 50%; color: #fff; font-size: 22px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; padding: 0; }
+.fullscreen-nav:hover { background: #c9a84c; }
+.fullscreen-thumb-strip { position: fixed; bottom: 70px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; max-width: 90vw; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+.fullscreen-thumb-strip::-webkit-scrollbar { display: none; }
+.fs-thumb { flex-shrink: 0; width: 56px; height: 42px; border-radius: 6px; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: 0.3s; opacity: 0.5; }
+.fs-thumb.active { border-color: #c9a84c; opacity: 1; }
+.fs-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ========== 响应式 ========== */
+@media (max-width: 900px) {
+  .nav-links, .nav-contact { display: none; }
+  .hamburger { display: flex; }
+  .hero { height: 85vw; min-height: 360px; }
+  .about-grid { grid-template-columns: 1fr; }
+  .about-images { order: -1; }
+  .about-images img { height: 140px; }
+  .category-grid { grid-template-columns: repeat(2, 1fr); }
+  .contact-grid { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr 1fr; }
+  .hero-stats { gap: 20px; }
+  .gallery-slide img { height: 56vw; min-height: 220px; }
+  .back-btn { top: 72px; left: 12px; font-size: 12px; padding: 8px 16px; }
+  .video-placeholder { height: 56vw; min-height: 220px; }
+}
+
+@media (max-width: 600px) {
+  .hero { height: 90vw; min-height: 320px; }
+  .hero-stats { gap: 16px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .about-features { grid-template-columns: 1fr; }
+  .yacht-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .yacht-card-body { padding: 14px; }
+  .yacht-card-body h3 { font-size: 14px; }
+  .yacht-card-btn { font-size: 11px; padding: 8px 16px; }
+  .gallery-slide img { height: 60vw; min-height: 200px; }
+  .gallery-btn { width: 36px; height: 36px; font-size: 18px; }
+  .gallery-thumb { width: 60px; height: 46px; }
+  .gallery-counter { font-size: 11px; padding: 4px 10px; }
+  .fullscreen-nav { width: 40px; height: 40px; font-size: 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- 导航栏 -->
+<nav class="navbar">
+  <div class="logo">HANGTONG <span>YACHT</span></div>
+  <div class="nav-links">
+    <a href="#home" onclick="showPage('home')">首页</a>
+    <a href="#category" onclick="showPage('home')">船型分类</a>
+    <a href="#yachts" onclick="showPage('home')">产品展示</a>
+    <a href="#contact" onclick="showPage('home')">联系我们</a>
+  </div>
+  <a href="mailto:liudidi@htyacht.cn" class="nav-contact">立即咨询</a>
+  <button class="hamburger" onclick="toggleMobileNav()" aria-label="菜单">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-mobile" id="mobileNav">
+  <a href="#home" onclick="showPage('home'); closeMobileNav();">首页</a>
+  <a href="#category" onclick="showPage('home'); closeMobileNav();">船型分类</a>
+  <a href="#yachts" onclick="showPage('home'); closeMobileNav();">产品展示</a>
+  <a href="#contact" onclick="showPage('home'); closeMobileNav();">联系我们</a>
+  <a href="mailto:liudidi@htyacht.cn" class="nav-contact" onclick="closeMobileNav();">立即咨询</a>
+</div>
+
+<!-- 主页 -->
+<div id="homePage" class="main-page">
+  <!-- 英雄轮播 -->
+  <section class="hero" id="home">
+    <div class="hero-slider" id="heroSlider">
+      <div class="hero-slide">
+        <img src="images/21_远洋豪华双体游艇_55ft (1).jpg" alt="Luxury Yacht">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <div class="hero-badge">2026 NEW COLLECTION</div>
+          <h1>Premium Yachts from China</h1>
+          <p>22 Models · 20ft to 66ft · Export to Middle East &amp; Southeast Asia<br>Professional Manufacturer with 15+ Years Experience</p>
+          <div class="hero-stats">
+            <div class="hero-stat"><div class="num">22</div><div class="lbl">MODELS</div></div>
+            <div class="hero-stat"><div class="num">15+</div><div class="lbl">YEARS</div></div>
+            <div class="hero-stat"><div class="num">500+</div><div class="lbl">DELIVERED</div></div>
+            <div class="hero-stat"><div class="num">30%</div><div class="lbl">SAVING</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-slide">
+        <img src="images/15_运营双体游艇_36ft (1).jpg" alt="Catamaran">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <div class="hero-badge">CATAMARAN SERIES</div>
+          <h1>Luxury Catamaran Yachts</h1>
+          <p>32ft - 55ft Catamaran Yachts for Operation, Charter &amp; Private Use<br>Dual-Hull Design for Stability and Space</p>
+          <div class="hero-stats">
+            <div class="hero-stat"><div class="num">8</div><div class="lbl">CATAMARANS</div></div>
+            <div class="hero-stat"><div class="num">32-55</div><div class="lbl">FT RANGE</div></div>
+            <div class="hero-stat"><div class="num">10+</div><div class="lbl">PASSENGERS</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-slide">
+        <img src="images/19_私人豪华游艇_46ft (1).jpg" alt="Motor Yacht">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <div class="hero-badge">MOTOR YACHT SERIES</div>
+          <h1>Motor Yachts &amp; Fishing Boats</h1>
+          <p>From 22ft Fishing Boats to 66ft Luxury Yachts<br>Custom Design Available · Fast Delivery</p>
+          <div class="hero-stats">
+            <div class="hero-stat"><div class="num">14</div><div class="lbl">MOTOR YACHTS</div></div>
+            <div class="hero-stat"><div class="num">22-66</div><div class="lbl">FT RANGE</div></div>
+            <div class="hero-stat"><div class="num">50+</div><div class="lbl">CUSTOMERS</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="slider-arrow prev" onclick="moveSlide(-1)" aria-label="上一张">&#10094;</button>
+    <button class="slider-arrow next" onclick="moveSlide(1)" aria-label="下一张">&#10095;</button>
+    <div class="slider-dots" id="sliderDots"></div>
+  </section>
+
+  <!-- 公司介绍 -->
+  <section class="about-section" id="about">
+    <div class="about-grid">
+      <div class="about-content">
+        <h2>About <span>HANGTONG YACHT</span></h2>
+        <p>HANGTONG YACHT is a professional yacht manufacturer located in Quanzhou, Fujian, China. With 15+ years of experience, we specialize in designing and manufacturing high-quality yachts for global export.</p>
+        <p>Our products range from 20ft sailboats to 66ft luxury motor yachts, serving customers in Middle East, Southeast Asia, Europe and Americas. We offer competitive pricing, flexible customization, and reliable delivery.</p>
+        <div class="about-features">
+          <div class="about-feature"><div class="icon">&#128746;</div><div class="text">15+ Years Factory</div></div>
+          <div class="about-feature"><div class="icon">&#9992;</div><div class="text">Global Export</div></div>
+          <div class="about-feature"><div class="icon">&#127912;</div><div class="text">Custom Design</div></div>
+          <div class="about-feature"><div class="icon">&#9201;</div><div class="text">Fast Delivery</div></div>
+        </div>
+      </div>
+      <div class="about-images">
+        <img src="images/18_双体游艇出口版_40ft (10).jpg" alt="Yacht 1">
+        <img src="images/20_派对豪华游艇_50ft (1).jpg" alt="Yacht 2">
+        <img src="images/22_培训驾校豪华游艇_66ft (1).jpg" alt="Yacht 3">
+        <img src="images/11_双体电动艇_32ft (1).jpg" alt="Yacht 4">
+      </div>
+    </div>
+  </section>
+
+  <!-- 分类导航 -->
+  <section class="category-nav" id="category">
+    <h2>Yacht <span>Categories</span></h2>
+    <div class="category-grid">
+      <div class="category-card" onclick="filterYachts('sailboat')"><div class="cat-icon">&#9975;</div><h3>Sailboats</h3><p>20-28FT · 4 Models</p></div>
+      <div class="category-card" onclick="filterYachts('fishing')"><div class="cat-icon">&#127919;</div><h3>Fishing Boats</h3><p>22-40FT · 5 Models</p></div>
+      <div class="category-card" onclick="filterYachts('catamaran')"><div class="cat-icon">&#128674;</div><h3>Catamarans</h3><p>32-55FT · 8 Models</p></div>
+      <div class="category-card" onclick="filterYachts('luxury')"><div class="cat-icon">&#129482;</div><h3>Luxury Yachts</h3><p>40-66FT · 5 Models</p></div>
+    </div>
+  </section>
+
+  <!-- 船型展示 -->
+  <section class="yacht-section" id="yachts">
+    <h2>Product <span>Catalog</span></h2>
+    <div class="yacht-grid" id="yachtGrid"></div>
+  </section>
+
+  <!-- 联系方式 -->
+  <section class="contact-section" id="contact">
+    <h2>Contact <span>Us</span></h2>
+    <div class="contact-grid">
+      <div class="contact-card"><div class="icon">&#9993;</div><h3>Email</h3><p>Sales Inquiries</p><a href="mailto:liudidi@htyacht.cn">liudidi@htyacht.cn</a></div>
+      <div class="contact-card"><div class="icon">&#128241;</div><h3>Phone / WhatsApp</h3><p>24/7 Support</p><a href="tel:+8613859770668">+86 138 5977 0668</a></div>
+      <div class="contact-card"><div class="icon">&#128172;</div><h3>WeChat</h3><p>Quick Response</p><a href="#">RYyacht</a></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-logo">HANGTONG YACHT</div>
+    <p>No. 180 Shanxia Street, Shanxia Village, Shanxia Town, Huian County, Quanzhou, Fujian, China 316022</p>
+    <p style="margin-top:8px;">Email: liudidi@htyacht.cn · Tel: +86 138 5977 0668 · WeChat: RYyacht</p>
+    <p style="margin-top:16px; opacity:0.6;">© 2026 HANGTONG YACHT. All Rights Reserved.</p>
+  </footer>
+</div>
+
+<!-- 详情页容器 -->
+<div id="detailContainer"></div>
+
+<!-- 全屏预览 -->
+<div class="fullscreen-overlay" id="fullscreenOverlay">
+  <div class="fullscreen-toolbar">
+    <button class="fullscreen-close" onclick="closeFullscreen()">&#215;</button>
+    <span class="fullscreen-counter" id="fullscreenCounter">1 / 1</span>
+    <button class="fullscreen-zoom" onclick="toggleFsZoom()" id="fsZoomBtn">&#43;</button>
+  </div>
+  <div class="fullscreen-img-wrap" id="fsImgWrap" onclick="event.stopPropagation()">
+    <img class="fullscreen-img" id="fullscreenImg" src="" alt="Fullscreen" ondragstart="return false">
+  </div>
+  <div class="fullscreen-thumb-strip" id="fsThumbStrip"></div>
+  <div class="fullscreen-navs">
+    <button class="fullscreen-nav" onclick="event.stopPropagation(); moveFullscreen(-1)">&#10094;</button>
+    <button class="fullscreen-nav" onclick="event.stopPropagation(); moveFullscreen(1)">&#10095;</button>
+  </div>
+</div>
+
+<script>
+// ==================== 数据 ====================
+var yachts = [
+  { id:'01', name:'FT22 Sailboat', size:'20FT / 6.5m', category:'sailboat', badge:'ENTRY', price:'$25K - $35K', image:'images/01_帆船_20ft (1).jpg', images:['images/01_帆船_20ft (1).jpg','images/01_帆船_20ft (2).jpg','images/01_帆船_20ft (3).jpg','images/01_帆船_20ft (4).jpg','images/01_帆船_20ft (5).jpg'], specs:{length:'6.5m',width:'2.4m',engine:'N/A (Sail)',capacity:'4 persons',material:'Fiberglass',design:'New Zealand'}, features:['Retractable Keel','Easy Operation','Low Maintenance','New Zealand Design','CE Certified'], video:{ title:'FT22 Sailboat — Sea Trial & Sailing Demo', desc:'Enjoy the ocean with this entry-level sailboat. CE certified with retractable keel design.' , url:'videos/01_帆船_20ft.mp4'} },
+  { id:'02', name:'Fishing Fast Boat 22', size:'22FT / 6.8m', category:'fishing', badge:'POPULAR', price:'$35K - $45K', image:'images/02_钓鱼快艇_22ft (1).JPG', images:['images/02_钓鱼快艇_22ft (1).JPG','images/02_钓鱼快艇_22ft (2).JPG','images/02_钓鱼快艇_22ft (3).jpg','images/02_钓鱼快艇_22ft (4).jpg','images/02_钓鱼快艇_22ft (5).JPG','images/02_钓鱼快艇_22ft (6).JPG','images/02_钓鱼快艇_22ft (7).JPG','images/02_钓鱼快艇_22ft (8).jpg','images/02_钓鱼快艇_22ft (9).jpg','images/02_钓鱼快艇_22ft (10).jpg'], specs:{length:'6.8m',width:'2.5m',engine:'115HP Outboard',capacity:'6 persons',material:'Fiberglass',draft:'0.4m'}, features:['GPS Fish Finder','Rod Holders','Live Bait Tank','T-Top Design','Insulated Cooler'] },
+  { id:'03', name:'Rescue Boat 22', size:'22FT / 6.8m', category:'work', badge:'RESCUE', price:'$40K - $50K', image:'images/03_救援艇_22ft (1).jpg', images:['images/03_救援艇_22ft (1).jpg','images/03_救援艇_22ft (2).jpg','images/03_救援艇_22ft (3).jpg','images/03_救援艇_22ft (4).jpg','images/03_救援艇_22ft (5).jpg'], specs:{length:'6.8m',width:'2.6m',engine:'2x150HP Outboard',capacity:'8 persons',material:'Fiberglass',speed:'35+ knots'}, features:['High Speed','Rescue Equipment','Search Light','PA System','Emergency Flares'] },
+  { id:'04', name:'H70 Sailboat', size:'23FT / 7.0m', category:'sailboat', badge:'POPULAR', price:'$35K - $45K', image:'images/04_帆船_23ft (1).jpg', images:['images/04_帆船_23ft (1).jpg','images/04_帆船_23ft (2).jpg','images/04_帆船_23ft (3).jpg','images/04_帆船_23ft (4).jpg','images/04_帆船_23ft (5).jpg'], specs:{length:'7.0m',width:'2.5m',engine:'N/A (Sail)',capacity:'7 persons',material:'Fiberglass',sail_area:'28m²'}, features:['Training Ready','Stable Design','Neil Pryde Sails','Furling System','Chart Plotter'] },
+  { id:'05', name:'Sport Boat 22', size:'22FT / 6.8m', category:'fishing', badge:'SPORT', price:'$40K - $50K', image:'images/05_运动艇_22ft (1).JPG', images:['images/05_运动艇_22ft (1).JPG','images/05_运动艇_22ft (2).JPG','images/05_运动艇_22ft (3).JPG','images/05_运动艇_22ft (4).JPG','images/05_运动艇_22ft (5).JPG','images/05_运动艇_22ft (6).JPG','images/05_运动艇_22ft (7).JPG','images/05_运动艇_22ft (8).JPG','images/05_运动艇_22ft (9).jpg','images/05_运动艇_22ft (10).jpg','images/05_运动艇_22ft (11).jpg'], specs:{length:'6.8m',width:'2.5m',engine:'250HP Outboard',capacity:'6 persons',material:'Fiberglass',top_speed:'40 knots'}, features:['Wakeboard Tower','Swim Platform','Premium Stereo','LED Lighting','Jet Ski Rack'], video:{ title:'Sport Boat 22 — Wakeboard & Watersports Performance', desc:'Built for fun on the water. Wakeboard tower, swim platform, LED lighting and premium sound system.' , url:'videos/05_运动艇_22ft.mp4'} },
+  { id:'06', name:'Sport Boat 23', size:'23FT / 7.2m', category:'fishing', badge:'PREMIUM', price:'$45K - $55K', image:'images/06_运动艇_23ft (1).JPG', images:['images/06_运动艇_23ft (1).JPG','images/06_运动艇_23ft (2).JPG','images/06_运动艇_23ft (3).JPG','images/06_运动艇_23ft (4).JPG'], specs:{length:'7.2m',width:'2.6m',engine:'300HP Outboard',capacity:'8 persons',material:'Fiberglass',fuel:'300L'}, features:['Flybridge','Fishing Package','Bait Station','Rod Storage','Fish Box'], video:{ title:'Sport Boat 23 — Flybridge Fishing Platform', desc:'Premium fishing boat with flybridge control station. Bait station, rod storage and fish box included.' , url:'videos/06_运动艇_23ft.mp4'} },
+  { id:'07', name:'H80 Sailing Operator', size:'24FT / 8.0m', category:'sailboat', badge:'OPERATOR', price:'$45K - $55K', image:'images/07_运动帆船_24ft (1).JPG', images:['images/07_运动帆船_24ft (1).JPG','images/07_运动帆船_24ft (2).JPG','images/07_运动帆船_24ft (3).JPG','images/07_运动帆船_24ft (4).JPG','images/07_运动帆船_24ft (5).JPG','images/07_运动帆船_24ft (6).JPG','images/07_运动帆船_24ft (7).JPG'], specs:{length:'8.0m',width:'2.8m',engine:'15HP Diesel',capacity:'8 persons',material:'Fiberglass',sail_area:'35m²'}, features:['Neil Pryde Sails','Chart Plotter','VHF Radio','Safety Gear','Training Ready'], video:{ title:'H80 Sailing Operator — Training & Charter Sailing', desc:'Neil Pryde sails with chart plotter and VHF radio. Perfect for sailing schools and charter operations.' , url:'videos/07_运动帆船_24ft.mp4'} },
+  { id:'08', name:'Work Boat 24', size:'24FT / 7.5m', category:'work', badge:'WORK', price:'$50K - $60K', image:'images/08_工作艇_24ft (1).jpg', images:['images/08_工作艇_24ft (1).jpg','images/08_工作艇_24ft (2).jpg','images/08_工作艇_24ft (3).jpg','images/08_工作艇_24ft (4).jpg','images/08_工作艇_24ft (5).jpg'], specs:{length:'7.5m',width:'2.8m',engine:'2x115HP Outboard',capacity:'10 persons',material:'Fiberglass',payload:'1500kg'}, features:['Heavy Duty','Cargo Deck','Crane Mount','Work Lights','Tool Storage'], video:{ title:'Work Boat 24 — Heavy Duty Commercial Operations', desc:'Rugged work boat with 1,500kg payload capacity. Cargo deck, crane mount and work lights for commercial use.' , url:'videos/08_工作艇_24ft.mp4'} },
+  { id:'09', name:'H90 Keel Sailboat', size:'28FT / 8.9m', category:'sailboat', badge:'PREMIUM', price:'$55K - $70K', image:'images/09_龙骨帆船_28ft (1).jpg', images:['images/09_龙骨帆船_28ft (1).jpg','images/09_龙骨帆船_28ft (2).jpg','images/09_龙骨帆船_28ft (3).jpg','images/09_龙骨帆船_28ft (4).jpg','images/09_龙骨帆船_28ft (5).jpg','images/09_龙骨帆船_28ft (6).jpg','images/09_龙骨帆船_28ft (7).jpg','images/09_龙骨帆船_28ft (8).jpg','images/09_龙骨帆船_28ft (9).jpg','images/09_龙骨帆船_28ft (10).jpg'], specs:{length:'8.9m',width:'3.0m',engine:'N/A (Sail)',capacity:'12 persons',material:'Fiberglass',draft:'1.5m'}, features:['Ocean Ready','Fixed Keel','4 Cabins','Full Galley','Chart Plotter'], video:{ title:'H90 Keel Sailboat — Ocean-Ready Sailing Performance', desc:'Fixed keel design for offshore sailing. 4-cabin layout perfect for family cruising and ocean passages.' , url:'videos/09_龙骨帆船_28ft.mp4'} },
+  { id:'10', name:'Work Boat 31', size:'31FT / 9.5m', category:'work', badge:'HEAVY DUTY', price:'$70K - $90K', image:'images/10_工作艇_31ft (1).jpg', images:['images/10_工作艇_31ft (1).jpg','images/10_工作艇_31ft (2).jpg','images/10_工作艇_31ft (3).jpg','images/10_工作艇_31ft (4).jpg','images/10_工作艇_31ft (5).jpg','images/10_工作艇_31ft (6).jpg','images/10_工作艇_31ft (7).jpg','images/10_工作艇_31ft (8).jpg','images/10_工作艇_31ft (9).jpg','images/10_工作艇_31ft (10).jpg','images/10_工作艇_31ft (11).jpg'], specs:{length:'9.5m',width:'3.2m',engine:'2x200HP Diesel',capacity:'12 persons',material:'Fiberglass',payload:'3000kg'}, features:['Commercial Grade','Crane Ready','A-Frame','Stabilizers','Long Range'], video:{ title:'Work Boat 31 — Commercial Grade Heavy Duty Boat', desc:'Class IV work boat with 3,000kg payload. Commercial grade construction for professional maritime operations.' , url:'videos/10_工作艇_31ft.mp4'} },
+  { id:'11', name:'Electric Catamaran 32', size:'32FT / 10.0m', category:'catamaran', badge:'ECO', price:'$80K - $100K', image:'images/11_双体电动艇_32ft (1).jpg', images:['images/11_双体电动艇_32ft (1).jpg','images/11_双体电动艇_32ft (2).jpg','images/11_双体电动艇_32ft (3).jpg','images/11_双体电动艇_32ft (4).jpg','images/11_双体电动艇_32ft (5).jpg','images/11_双体电动艇_32ft (6).jpg','images/11_双体电动艇_32ft (7).jpg','images/11_双体电动艇_32ft (8).jpg','images/11_双体电动艇_32ft (9).jpg','images/11_双体电动艇_32ft (10).jpg','images/11_双体电动艇_32ft (11).jpg','images/11_双体电动艇_32ft (12).jpg'], specs:{length:'10.0m',width:'5.0m',engine:'Electric Motors',capacity:'12 persons',material:'Fiberglass',range:'50nm'}, features:['Zero Emission','Silent Operation','Solar Panels','4 Cabins','Eco Friendly'] },
+  { id:'12', name:'Web Famous Catamaran 33', size:'33FT / 10.5m', category:'catamaran', badge:'TRENDING', price:'$90K - $110K', image:'images/12_网红双体_33ft (1).jpg', images:['images/12_网红双体_33ft (1).jpg','images/12_网红双体_33ft (2).jpg','images/12_网红双体_33ft (3).jpg','images/12_网红双体_33ft (4).jpg','images/12_网红双体_33ft (5).jpg','images/12_网红双体_33ft (6).jpg','images/12_网红双体_33ft (7).jpg','images/12_网红双体_33ft (8).jpg','images/12_网红双体_33ft (9).jpg','images/12_网红双体_33ft (10).jpg'], specs:{length:'10.5m',width:'5.2m',engine:'2x150HP Diesel',capacity:'15 persons',material:'Fiberglass',fuel:'600L'}, features:['Social Media Star','Photo Ready','Bose Sound','LED Lighting','Premium Finish'], video:{ title:'Web Famous Catamaran 33 — Social Media Sensation', desc:'The most photogenic catamaran on social media. Perfect for influencers, content creators and Instagram-worthy charters.' , url:'videos/12_网红双体_33ft.mp4'} },
+  { id:'13', name:'Operation Catamaran 33', size:'33FT / 10.5m', category:'catamaran', badge:'OPERATOR', price:'$95K - $115K', image:'images/13_运营双体_33ft (1).jpg', images:['images/13_运营双体_33ft (1).jpg','images/13_运营双体_33ft (2).jpg','images/13_运营双体_33ft (3).jpg','images/13_运营双体_33ft (4).jpg','images/13_运营双体_33ft (5).jpg','images/13_运营双体_33ft (6).jpg','images/13_运营双体_33ft (7).jpg','images/13_运营双体_33ft (8).jpg'], specs:{length:'10.5m',width:'5.2m',engine:'2x170HP Diesel',capacity:'15 persons',material:'Fiberglass',charter:'Approved'}, features:['Charter Ready','Commercial Use','High Capacity','Stable Ride','Low Maintenance'], video:{ title:'Operation Catamaran 33 — Commercial Charter Operations', desc:'Charter-approved for commercial use. High capacity and stable ride for tourist operations and island hopping.' , url:'videos/13_运营双体_33ft.mp4'} },
+  { id:'14', name:'Fishing Boat 36', size:'36FT / 11.0m', category:'fishing', badge:'OFFSHORE', price:'$100K - $130K', image:'images/14_钓鱼艇测开门_36ft (1).jpg', images:['images/14_钓鱼艇测开门_36ft (1).jpg','images/14_钓鱼艇测开门_36ft (2).jpg','images/14_钓鱼艇测开门_36ft (3).jpg','images/14_钓鱼艇测开门_36ft (4).jpg','images/14_钓鱼艇测开门_36ft (5).jpg','images/14_钓鱼艇测开门_36ft (6).jpg','images/14_钓鱼艇测开门_36ft (7).jpg','images/14_钓鱼艇测开门_36ft (8).JPG','images/14_钓鱼艇测开门_36ft (9).jpg','images/14_钓鱼艇测开门_36ft (10).JPG','images/14_钓鱼艇测开门_36ft (11).JPG','images/14_钓鱼艇测开门_36ft (12).JPG','images/14_钓鱼艇测开门_36ft (13).JPG','images/14_钓鱼艇测开门_36ft (14).JPG','images/14_钓鱼艇测开门_36ft (15).JPG','images/14_钓鱼艇测开门_36ft (16).jpg','images/14_钓鱼艇测开门_36ft (17).jpg'], specs:{length:'11.0m',width:'3.6m',engine:'2x350HP Diesel',capacity:'10 persons',material:'Fiberglass',range:'200nm'}, features:['Transom Door','Fish Box','Rod Holders','GPS Radar','Offshore Ready'], video:{ title:'Fishing Boat 36 — Transom Door & Deck Walkthrough', desc:'Watch the 36FT fishing boat in action. Transom door design for easy boarding and fish handling.' , url:'videos/14_钓鱼艇测开门_36ft.mp4'} },
+  { id:'15', name:'Operation Yacht 36', size:'36FT / 11.0m', category:'catamaran', badge:'CHARTER', price:'$110K - $140K', image:'images/15_运营双体游艇_36ft (1).jpg', images:['images/15_运营双体游艇_36ft (1).jpg','images/15_运营双体游艇_36ft (2).JPG','images/15_运营双体游艇_36ft (3).JPG','images/15_运营双体游艇_36ft (4).JPG','images/15_运营双体游艇_36ft (5).JPG','images/15_运营双体游艇_36ft (6).JPG','images/15_运营双体游艇_36ft (7).JPG','images/15_运营双体游艇_36ft (8).JPG','images/15_运营双体游艇_36ft (9).JPG','images/15_运营双体游艇_36ft (10).JPG','images/15_运营双体游艇_36ft (11).JPG','images/15_运营双体游艇_36ft (12).JPG','images/15_运营双体游艇_36ft (13).JPG','images/15_运营双体游艇_36ft (14).jpg','images/15_运营双体游艇_36ft (15).jpg','images/15_运营双体游艇_36ft (16).jpg','images/15_运营双体游艇_36ft (17).jpg'], specs:{length:'11.0m',width:'5.5m',engine:'2x220HP Diesel',capacity:'18 persons',material:'Fiberglass',fuel:'800L'}, features:['Charter License','Professional Layout','Crew Cabin','Guest Cabins','Sun Deck'], video:{ title:'Operation Yacht 36 — Full Charter Yacht Walkthrough', desc:'Complete tour of the 36FT catamaran. Seats 18 guests with sun deck, crew cabin and guest cabins.' , url:'videos/15_运营双体游艇_36ft.mp4'} },
+  { id:'15b', name:'Operation Catamaran 36B', size:'36FT / 11.0m', category:'catamaran', badge:'NEW', price:'$115K - $145K', image:'images/15B_运营双体游艇_36ft (1).jpg', images:['images/15B_运营双体游艇_36ft (1).jpg','images/15B_运营双体游艇_36ft (2).jpg','images/15B_运营双体游艇_36ft (3).jpg','images/15B_运营双体游艇_36ft (4).jpg','images/15B_运营双体游艇_36ft (5).jpg','images/15B_运营双体游艇_36ft (6).jpg','images/15B_运营双体游艇_36ft (7).jpg','images/15B_运营双体游艇_36ft (8).jpg','images/15B_运营双体游艇_36ft (9).jpg','images/15B_运营双体游艇_36ft (10).jpg','images/15B_运营双体游艇_36ft (11).jpg','images/15B_运营双体游艇_36ft (12).jpg','images/15B_运营双体游艇_36ft (13).jpg','images/15B_运营双体游艇_36ft (14).jpg','images/15B_运营双体游艇_36ft (15).jpg','images/15B_运营双体游艇_36ft (16).jpg','images/15B_运营双体游艇_36ft (17).jpg','images/15B_运营双体游艇_36ft (18).jpg'], specs:{length:'11.0m',width:'5.5m',engine:'2x250HP Diesel',capacity:'20 persons',material:'Fiberglass',fuel:'1000L'}, features:['Upgraded Layout','Larger Deck','4 Cabins','Captain Cabin','Bar Area'], video:{ title:'Operation Catamaran 36B — New Layout & Bar Area Tour', desc:'The upgraded 36B model featuring a bar area and captain cabin. Perfect for sunset cruises and private events.' , url:'videos/15B_运营双体游艇_36ft.mp4'} },
+  { id:'16', name:'New Energy Electric Catamaran 40', size:'40FT / 12.0m', category:'catamaran', badge:'GREEN', price:'$140K - $180K', image:'images/16_新能源电动双体游艇_40ft (1).jpg', images:['images/16_新能源电动双体游艇_40ft (1).jpg','images/16_新能源电动双体游艇_40ft (2).jpg','images/16_新能源电动双体游艇_40ft (3).jpg','images/16_新能源电动双体游艇_40ft (4).jpg','images/16_新能源电动双体游艇_40ft (5).jpg','images/16_新能源电动双体游艇_40ft (6).jpg','images/16_新能源电动双体游艇_40ft (7).jpg','images/16_新能源电动双体游艇_40ft (8).jpg','images/16_新能源电动双体游艇_40ft (9).jpg','images/16_新能源电动双体游艇_40ft (10).jpg'], specs:{length:'12.0m',width:'6.0m',engine:'Electric + Gen',capacity:'15 persons',material:'Fiberglass',range:'100nm'}, features:['Hybrid Power','Solar Roof','Zero Noise','5 Cabins','Premium Interior'] },
+  { id:'17', name:'Offshore Fishing 40', size:'40FT / 12.5m', category:'fishing', badge:'LONG RANGE', price:'$150K - $200K', image:'images/17_钓鱼艇离岸200海里_40ft (4).JPG', images:['images/17_钓鱼艇离岸200海里_40ft (4).JPG','images/17_钓鱼艇离岸200海里_40ft (5).JPG','images/17_钓鱼艇离岸200海里_40ft (6).JPG','images/17_钓鱼艇离岸200海里_40ft (7).JPG','images/17_钓鱼艇离岸200海里_40ft (8).JPG','images/17_钓鱼艇离岸200海里_40ft (9).JPG','images/17_钓鱼艇离岸200海里_40ft (10).JPG','images/17_钓鱼艇离岸200海里_40ft (11).JPG','images/17_钓鱼艇离岸200海里_40ft (12).JPG','images/17_钓鱼艇离岸200海里_40ft (13).JPG','images/17_钓鱼艇离岸200海里_40ft (14).JPG','images/17_钓鱼艇离岸200海里_40ft (15).JPG','images/17_钓鱼艇离岸200海里_40ft (16).JPG'], specs:{length:'12.5m',width:'4.2m',engine:'2x500HP Diesel',capacity:'12 persons',material:'Fiberglass',range:'200nm+'}, features:['200nm Range','Deep Fish Hold','Radar GPS','Stabilizers','AC Cabin'], video:{ title:'Offshore Fishing 40 — 200nm Range Offshore Adventure', desc:'Built for serious offshore fishing. 200+ nautical mile range, deep fish hold and radar navigation system.' , url:'videos/17_钓鱼艇离岸200海里_40ft.mp4'} },
+  { id:'18', name:'Export Catamaran 40', size:'40FT / 12.0m', category:'catamaran', badge:'EXPORT', price:'$160K - $200K', image:'images/18_双体游艇出口版_40ft (10).jpg', images:['images/18_双体游艇出口版_40ft (10).jpg','images/18_双体游艇出口版_40ft (11).jpg','images/18_双体游艇出口版_40ft (12).jpg','images/18_双体游艇出口版_40ft (13).jpg','images/18_双体游艇出口版_40ft (14).jpg','images/18_双体游艇出口版_40ft (15).jpg','images/18_双体游艇出口版_40ft (16).jpg','images/18_双体游艇出口版_40ft (17).jpg','images/18_双体游艇出口版_40ft (18).jpg','images/18_双体游艇出口版_40ft (19).jpg','images/18_双体游艇出口版_40ft (20).jpg','images/18_双体游艇出口版_40ft (21).jpg','images/18_双体游艇出口版_40ft (22).jpg','images/18_双体游艇出口版_40ft (23).jpg','images/18_双体游艇出口版_40ft (24).jpg','images/18_双体游艇出口版_40ft (25).jpg'], specs:{length:'12.0m',width:'6.0m',engine:'2x260HP Diesel',capacity:'18 persons',material:'Fiberglass',fuel:'1200L'}, features:['Export Ready','CE Certified','5 Cabins','Flybridge','Hydraulic Platform'], video:{ title:'Export Catamaran 40 — CE Certified Export-Grade Quality', desc:'CE certified catamaran ready for Europe and global delivery. Flybridge and hydraulic platform included.' , url:'videos/18_双体游艇出口版_40ft.mp4'} },
+  { id:'19', name:'Private Luxury Yacht 46', size:'46FT / 14.0m', category:'luxury', badge:'LUXURY', price:'$250K - $350K', image:'images/19_私人豪华游艇_46ft (1).jpg', images:['images/19_私人豪华游艇_46ft (1).jpg','images/19_私人豪华游艇_46ft (2).jpg','images/19_私人豪华游艇_46ft (3).jpg','images/19_私人豪华游艇_46ft (4).jpg','images/19_私人豪华游艇_46ft (5).jpg','images/19_私人豪华游艇_46ft (6).jpg','images/19_私人豪华游艇_46ft (7).jpg','images/19_私人豪华游艇_46ft (8).jpg','images/19_私人豪华游艇_46ft (9).jpg','images/19_私人豪华游艇_46ft (10).jpg','images/19_私人豪华游艇_46ft (11).jpg','images/19_私人豪华游艇_46ft (12).jpg','images/19_私人豪华游艇_46ft (13).jpg','images/19_私人豪华游艇_46ft (14).jpg'], specs:{length:'14.0m',width:'4.5m',engine:'2x800HP Diesel',capacity:'12 persons',material:'Fiberglass',top_speed:'28 knots'}, features:['Flybridge','Master Suite','Jacuzzi','Premium Galley','Stabilizers'] },
+  { id:'20', name:'Party Luxury Yacht 50', size:'50FT / 15.0m', category:'luxury', badge:'PARTY', price:'$300K - $400K', image:'images/20_派对豪华游艇_50ft (1).jpg', images:['images/20_派对豪华游艇_50ft (1).jpg','images/20_派对豪华游艇_50ft (2).jpg','images/20_派对豪华游艇_50ft (3).jpg','images/20_派对豪华游艇_50ft (4).jpg','images/20_派对豪华游艇_50ft (5).jpg','images/20_派对豪华游艇_50ft (6).jpg','images/20_派对豪华游艇_50ft (7).jpg','images/20_派对豪华游艇_50ft (8).jpg','images/20_派对豪华游艇_50ft (9).jpg','images/20_派对豪华游艇_50ft (10).jpg','images/20_派对豪华游艇_50ft (11).jpg','images/20_派对豪华游艇_50ft (12).jpg','images/20_派对豪华游艇_50ft (13).jpg','images/20_派对豪华游艇_50ft (14).jpg','images/20_派对豪华游艇_50ft (15).jpg','images/20_派对豪华游艇_50ft (16).jpg','images/20_派对豪华游艇_50ft (17).jpg','images/20_派对豪华游艇_50ft (18).jpg'], specs:{length:'15.0m',width:'4.8m',engine:'2x1000HP Diesel',capacity:'20 persons',material:'Fiberglass',top_speed:'30 knots'}, features:['Party Deck','Sound System','Bar Counter','Dance Floor','Professional Lighting'] },
+  { id:'21', name:'Ocean Luxury Catamaran 55', size:'55FT / 17.0m', category:'catamaran', badge:'OCEAN', price:'$400K - $550K', image:'images/21_远洋豪华双体游艇_55ft (1).jpg', images:['images/21_远洋豪华双体游艇_55ft (1).jpg','images/21_远洋豪华双体游艇_55ft (2).jpg','images/21_远洋豪华双体游艇_55ft (3).jpg','images/21_远洋豪华双体游艇_55ft (4).jpg','images/21_远洋豪华双体游艇_55ft (5).jpg','images/21_远洋豪华双体游艇_55ft (6).jpg','images/21_远洋豪华双体游艇_55ft (7).jpg','images/21_远洋豪华双体游艇_55ft (8).jpg','images/21_远洋豪华双体游艇_55ft (9).jpg','images/21_远洋豪华双体游艇_55ft (10).jpg','images/21_远洋豪华双体游艇_55ft (11).jpg','images/21_远洋豪华双体游艇_55ft (12).jpg','images/21_远洋豪华双体游艇_55ft (13).jpg','images/21_远洋豪华双体游艇_55ft (14).jpg','images/21_远洋豪华双体游艇_55ft (15).jpg'], specs:{length:'17.0m',width:'8.0m',engine:'2x500HP Diesel',capacity:'25 persons',material:'Fiberglass',range:'500nm'}, features:['Ocean Ready','6 Cabins','Generator','Inverter','Water Maker'] },
+  { id:'22', name:'Training Luxury Yacht 66', size:'66FT / 20.0m', category:'luxury', badge:'TRAINING', price:'$550K - $700K', image:'images/22_培训驾校豪华游艇_66ft (1).jpg', images:['images/22_培训驾校豪华游艇_66ft (1).jpg','images/22_培训驾校豪华游艇_66ft (2).jpg','images/22_培训驾校豪华游艇_66ft (3).jpg','images/22_培训驾校豪华游艇_66ft (4).jpg','images/22_培训驾校豪华游艇_66ft (5).jpg','images/22_培训驾校豪华游艇_66ft (6).jpg','images/22_培训驾校豪华游艇_66ft (7).jpg','images/22_培训驾校豪华游艇_66ft (8).jpg','images/22_培训驾校豪华游艇_66ft (9).jpg','images/22_培训驾校豪华游艇_66ft (10).jpg','images/22_培训驾校豪华游艇_66ft (11).jpg','images/22_培训驾校豪华游艇_66ft (12).jpg'], specs:{length:'20.0m',width:'5.5m',engine:'2x1200HP Diesel',capacity:'30 persons',material:'Fiberglass',top_speed:'25 knots'}, features:['Training Ready','Navigation Suite','8 Cabins','Cockpit','Exam Area'] }
+];
+
+// ==================== 初始化 ====================
+var currentSlide = 0;
+var totalSlides = 3;
+
+document.addEventListener('DOMContentLoaded', function() {
+  renderYachtCards(yachts);
+  createDots();
+  autoSlide();
+  initHeroTouch();
+});
+
+// ==================== 汉堡菜单 ====================
+function toggleMobileNav() {
+  var nav = document.getElementById('mobileNav');
+  nav.classList.toggle('open');
+}
+function closeMobileNav() {
+  document.getElementById('mobileNav').classList.remove('open');
+}
+
+// ==================== 英雄轮播 ====================
+function moveSlide(dir) {
+  currentSlide = (currentSlide + dir + totalSlides) % totalSlides;
+  updateSlider();
+}
+function updateSlider() {
+  document.getElementById('heroSlider').style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+  var dots = document.querySelectorAll('#sliderDots .slider-dot');
+  for (var i = 0; i < dots.length; i++) {
+    dots[i].classList.toggle('active', i === currentSlide);
+  }
+}
+function createDots() {
+  var container = document.getElementById('sliderDots');
+  for (var i = 0; i < totalSlides; i++) {
+    var dot = document.createElement('div');
+    dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
+    dot.onclick = (function(idx) { return function() { currentSlide = idx; updateSlider(); }; })(i);
+    container.appendChild(dot);
+  }
+}
+function autoSlide() {
+  setInterval(function() { moveSlide(1); }, 5000);
+}
+
+// 英雄区触摸滑动
+function initHeroTouch() {
+  var slider = document.getElementById('heroSlider');
+  var startX = 0, startY = 0, currentX = 0, isDragging = false;
+  slider.addEventListener('touchstart', function(e) {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    isDragging = true;
+  }, { passive: true });
+  slider.addEventListener('touchmove', function(e) {
+    if (!isDragging) return;
+    var dx = e.touches[0].clientX - startX;
+    var dy = e.touches[0].clientY - startY;
+    if (Math.abs(dx) > Math.abs(dy)) {
+      e.preventDefault();
+      currentX = dx;
+      slider.style.transform = 'translateX(calc(-' + (currentSlide * 100) + '% + ' + dx + 'px))';
+    }
+  }, { passive: false });
+  slider.addEventListener('touchend', function(e) {
+    if (!isDragging) return;
+    isDragging = false;
+    var dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 50) {
+      moveSlide(dx < 0 ? 1 : -1);
+    } else {
+      slider.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+    }
+  });
+}
+
+// ==================== 船型卡片 ====================
+function renderYachtCards(data) {
+  var grid = document.getElementById('yachtGrid');
+  var html = '';
+  for (var i = 0; i < data.length; i++) {
+    var yacht = data[i];
+    var featTags = yacht.features.slice(0, 3).map(function(f) { return '<span class="yacht-spec-tag">' + f + '</span>'; }).join('');
+    html += '<div class="yacht-card" onclick="showDetail(\'' + yacht.id + '\')">' +
+      '<div class="yacht-card-img"><img src="' + yacht.image + '" alt="' + yacht.name + '" onerror="this.src=\'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 300%22><rect fill=%22%230f1f3d%22 width=%22400%22 height=%22300%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23c9a84c%22 font-size=%2224%22>YACHT</text></svg>\'">' +
+      '<span class="yacht-card-badge">' + yacht.badge + '</span><span class="yacht-card-price">' + yacht.price + '</span></div>' +
+      '<div class="yacht-card-body"><h3>' + yacht.name + '</h3><p class="size">' + yacht.size + '</p>' +
+      '<div class="yacht-specs">' + featTags + '</div><span class="yacht-card-btn">View Details →</span></div></div>';
+  }
+  grid.innerHTML = html;
+}
+
+// ==================== 筛选 ====================
+function filterYachts(category) {
+  var filtered = category === 'all' ? yachts : yachts.filter(function(y) { return y.category === category; });
+  renderYachtCards(filtered);
+  document.getElementById('yachts').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ==================== 详情页 ====================
+function showDetail(id) {
+  var yacht = null;
+  for (var i = 0; i < yachts.length; i++) { if (yachts[i].id === id) { yacht = yachts[i]; break; } }
+  if (!yacht) return;
+
+  var specsHtml = '';
+  var specKeys = Object.keys(yacht.specs);
+  for (var j = 0; j < specKeys.length; j++) {
+    var key = specKeys[j];
+    var label = key.charAt(0).toUpperCase() + key.slice(1).replace('_', ' ');
+    specsHtml += '<tr><td>' + label + '</td><td>' + yacht.specs[key] + '</td></tr>';
+  }
+
+  var featuresHtml = '';
+  for (var k = 0; k < yacht.features.length; k++) {
+    featuresHtml += '<div class="feature-card"><div class="icon">&#10003;</div><h3>' + yacht.features[k] + '</h3></div>';
+  }
+
+  var imagesHtml = '';
+  for (var m = 0; m < yacht.images.length; m++) {
+    imagesHtml += '<div class="gallery-slide" data-idx="' + m + '"><img src="' + yacht.images[m] + '" alt="' + yacht.name + ' ' + (m+1) + '" onerror="this.src=\'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 900 500%22><rect fill=%22%230f1f3d%22 width=%22900%22 height=%22500%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23c9a84c%22 font-size=%2236%22>YACHT IMAGE</text></svg>\'"></div>';
+  }
+
+  var galleryDots = '';
+  for (var n = 0; n < yacht.images.length; n++) {
+    galleryDots += '<div class="gallery-dot' + (n === 0 ? ' active' : '') + '" data-idx="' + n + '"></div>';
+  }
+
+  var thumbsHtml = '';
+  for (var p = 0; p < yacht.images.length; p++) {
+    thumbsHtml += '<div class="gallery-thumb' + (p === 0 ? ' active' : '') + '" data-idx="' + p + '"><img src="' + yacht.images[p] + '" alt="Thumb ' + (p+1) + '" onerror="this.src=\'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 80 60%22><rect fill=%22%230f1f3d%22 width=%2280%22 height=%2260%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23c9a84c%22 font-size=%2212%22>' + (p+1) + '</text></svg>\'"></div>';
+  }
+
+  document.getElementById('detailContainer').innerHTML = '<a href="#" class="back-btn" onclick="hideDetail(); return false;">&#8592; Back to Catalog</a><div class="detail-page" style="display:block">' +
+    '<div class="detail-header"><h1>' + yacht.name + '</h1><p class="subtitle">' + yacht.size + ' · ' + yacht.category.charAt(0).toUpperCase() + yacht.category.slice(1) + '</p><div class="tags"><span class="tag">' + yacht.badge + '</span><span class="tag">' + yacht.price + '</span></div></div>' +
+    '<div class="gallery"><div class="gallery-slider-wrap"><div class="gallery-slider" id="detailGallery"><div class="gallery-track" id="galleryTrack">' + imagesHtml + '</div><div class="gallery-controls"><button class="gallery-btn" onclick="moveGallery(-1)">&#10094;</button><button class="gallery-btn" onclick="moveGallery(1)">&#10095;</button></div><div class="gallery-counter" id="galleryCounter">1 / ' + yacht.images.length + '</div></div></div>' +
+    '<div class="gallery-dots" id="galleryDots">' + galleryDots + '</div>' +
+    '<div class="gallery-thumbs"><h4>More Photos</h4><div class="gallery-thumbs-track" id="galleryThumbs">' + thumbsHtml + '</div></div></div></div>' +
+    '<div class="video-section"><h2>Video <span>Presentation</span></h2><div class="video-grid" id="videoGrid"></div></div>' +
+    '<section class="specs-section"><h2>Specifications</h2><div class="specs-table"><table><thead><tr><th>Parameter</th><th>Value</th></tr></thead><tbody>' + specsHtml + '</tbody></table></div></section>' +
+    '<section class="features-section"><h2>Key Features</h2><div class="features-grid">' + featuresHtml + '</div></section>' +
+    '<section class="detail-contact"><h2>Contact Us for This Model</h2><div class="contact-methods"><div class="method"><div class="method-icon">&#9993;</div><h4>Email</h4><p>liudidi@htyacht.cn</p></div><div class="method"><div class="method-icon">&#128241;</div><h4>Phone / WhatsApp</h4><p>+86 138 5977 0668</p></div><div class="method"><div class="method-icon">&#128172;</div><h4>WeChat</h4><p>RYyacht</p></div></div></section>' +
+    '<footer class="footer"><div class="footer-logo">HANGTONG YACHT</div><p>No. 180 Shanxia Street, Shanxia Village, Shanxia Town, Huian County, Quanzhou, Fujian, China 316022</p><p style="margin-top:8px;">Email: liudidi@htyacht.cn · Tel: +86 138 5977 0668 · WeChat: RYyacht</p></footer></div>';
+
+  window.currentGallery = 0;
+  window.galleryTotal = yacht.images.length;
+
+  renderVideoSection(yacht);
+
+  initGalleryTouch();
+  bindGalleryEvents();
+
+  document.getElementById('homePage').style.display = 'none';
+  document.querySelector('.navbar').style.display = 'none';
+  window.scrollTo(0, 0);
+}
+
+function hideDetail() {
+  document.getElementById('homePage').style.display = 'block';
+  document.querySelector('.navbar').style.display = 'flex';
+  document.getElementById('detailContainer').innerHTML = '';
+  window.scrollTo(0, 0);
+}
+
+// 详情页轮播移动端触摸滑动
+function initGalleryTouch() {
+  var track = document.getElementById('galleryTrack');
+  if (!track) return;
+  var startX = 0, isDragging = false;
+  track.addEventListener('touchstart', function(e) {
+    startX = e.touches[0].clientX;
+    isDragging = true;
+  }, { passive: true });
+  track.addEventListener('touchmove', function(e) {
+    if (!isDragging) return;
+    var dx = e.touches[0].clientX - startX;
+    if (Math.abs(dx) > 10) e.preventDefault();
+  }, { passive: false });
+  track.addEventListener('touchend', function(e) {
+    if (!isDragging) return;
+    isDragging = false;
+    var dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 50) moveGallery(dx < 0 ? 1 : -1);
+  });
+}
+
+// 绑定轮播指示点/缩略图点击事件
+function bindGalleryEvents() {
+  var dots = document.querySelectorAll('.gallery-dot');
+  for (var i = 0; i < dots.length; i++) {
+    dots[i].onclick = (function(idx) { return function() { goToGallery(idx); }; })(parseInt(dots[i].getAttribute('data-idx')));
+  }
+  var thumbs = document.querySelectorAll('.gallery-thumb');
+  for (var j = 0; j < thumbs.length; j++) {
+    thumbs[j].onclick = (function(idx) { return function() { goToGallery(idx); }; })(parseInt(thumbs[j].getAttribute('data-idx')));
+  }
+}
+
+function moveGallery(dir) {
+  window.currentGallery = (window.currentGallery + dir + window.galleryTotal) % window.galleryTotal;
+  updateGalleryView();
+}
+
+function goToGallery(idx) {
+  window.currentGallery = idx;
+  updateGalleryView();
+}
+
+function updateGalleryView() {
+  var track = document.getElementById('galleryTrack');
+  if (track) track.style.transform = 'translateX(-' + (window.currentGallery * 100) + '%)';
+  var counter = document.getElementById('galleryCounter');
+  if (counter) counter.textContent = (window.currentGallery + 1) + ' / ' + window.galleryTotal;
+
+  var dots = document.querySelectorAll('.gallery-dot');
+  for (var i = 0; i < dots.length; i++) {
+    dots[i].classList.toggle('active', i === window.currentGallery);
+  }
+  var thumbs = document.querySelectorAll('.gallery-thumb');
+  for (var j = 0; j < thumbs.length; j++) {
+    thumbs[j].classList.toggle('active', j === window.currentGallery);
+    if (j === window.currentGallery) {
+      thumbs[j].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  }
+}
+
+// ==================== 视频展示 ====================
+// 支持本地视频（按 ID 自动检测）或手动配置
+function renderVideoSection(yacht) {
+  var grid = document.getElementById('videoGrid');
+  if (!grid) return;
+
+  // 自动检测 videos/ID_*.mp4，或用手动配置
+  var video = yacht.video;
+  var autoUrl = 'videos/' + yacht.id + '_' + yacht.name.replace(/[^a-zA-Z0-9]/g, '_') + '.mp4';
+
+  var url = (video && video.url) ? video.url : 'videos/' + yacht.id + '.mp4';
+  var title = (video && video.title) ? video.title : yacht.name + ' — Product Video';
+  var desc = (video && video.desc) ? video.desc : 'Product demonstration video · Click to play';
+
+  grid.innerHTML = '<div class="video-card">' +
+    '<div class="video-player-wrap" id="videoWrap">' +
+    '<video id="detailVideo" src="' + url + '" poster="" preload="metadata" onerror="this.style.display=\'none\'; document.getElementById(\'videoPlaceholder\').style.display=\'flex\'"></video>' +
+    '<div class="video-placeholder" id="videoPlaceholder" style="display:none;" onclick="requestVideo(\'' + yacht.name.replace(/'/g, "\\'") + '\')">' +
+    '<div class="vp-icon">&#127916;</div><div class="vp-text">Video coming soon — contact us to request</div></div>' +
+    '<button class="video-play-btn" id="videoPlayBtn" onclick="event.stopPropagation(); toggleVideo()"></button>' +
+    '</div>' +
+    '<div class="video-info"><h3>' + title + '</h3><p>' + desc + '</p></div>' +
+    '</div>';
+}
+
+function toggleVideo() {
+  var video = document.getElementById('detailVideo');
+  var btn = document.getElementById('videoPlayBtn');
+  if (!video) return;
+  if (video.paused) {
+    video.play();
+    if (btn) btn.classList.add('playing');
+  } else {
+    video.pause();
+    if (btn) btn.classList.remove('playing');
+  }
+}
+
+function requestVideo(yachtName) {
+  var subject = encodeURIComponent('Video Request: ' + yachtName);
+  window.location.href = 'mailto:liudidi@htyacht.cn?subject=' + subject + '&body=' + encodeURIComponent('Hello,\n\nI am interested in a product video for: ' + yachtName + '\n\nCould you please send me a video?\n\nThank you.');
+}
+
+// ==================== 全屏预览 ====================
+var fsZoomLevel = 1;
+
+function openFullscreen(imgSrc) {
+  var allImgs = document.querySelectorAll('#galleryTrack .gallery-slide img');
+  window.fsImages = Array.prototype.slice.call(allImgs).map(function(img) { return img.src; });
+  window.fsIdx = window.fsImages.indexOf(imgSrc);
+  if (window.fsIdx === -1) window.fsIdx = 0;
+  fsZoomLevel = 1;
+  updateFsView();
+  document.getElementById('fullscreenOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function updateFsView() {
+  var img = document.getElementById('fullscreenImg');
+  if (img) {
+    img.src = window.fsImages[window.fsIdx];
+    img.style.transform = 'scale(' + fsZoomLevel + ')';
+  }
+  var counter = document.getElementById('fullscreenCounter');
+  if (counter) counter.textContent = (window.fsIdx + 1) + ' / ' + window.fsImages.length;
+  var zoomBtn = document.getElementById('fsZoomBtn');
+  if (zoomBtn) zoomBtn.textContent = fsZoomLevel > 1 ? '\u2212' : '\u002B';
+
+  var fsThumbs = document.querySelectorAll('.fs-thumb');
+  for (var i = 0; i < fsThumbs.length; i++) {
+    fsThumbs[i].classList.toggle('active', i === window.fsIdx);
+  }
+}
+
+function moveFullscreen(dir) {
+  window.fsIdx = (window.fsIdx + dir + window.fsImages.length) % window.fsImages.length;
+  fsZoomLevel = 1;
+  updateFsView();
+}
+
+function toggleFsZoom() {
+  fsZoomLevel = fsZoomLevel > 1 ? 1 : 2.5;
+  var img = document.getElementById('fullscreenImg');
+  if (img) img.style.transform = 'scale(' + fsZoomLevel + ')';
+  var zoomBtn = document.getElementById('fsZoomBtn');
+  if (zoomBtn) zoomBtn.textContent = fsZoomLevel > 1 ? '\u2212' : '\u002B';
+}
+
+function closeFullscreen() {
+  document.getElementById('fullscreenOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+  fsZoomLevel = 1;
+}
+
+// 键盘支持
+document.addEventListener('keydown', function(e) {
+  var fs = document.getElementById('fullscreenOverlay');
+  if (!fs.classList.contains('active')) return;
+  if (e.key === 'Escape') closeFullscreen();
+  if (e.key === 'ArrowLeft') moveFullscreen(-1);
+  if (e.key === 'ArrowRight') moveFullscreen(1);
+  if (e.key === '+' || e.key === '=') { fsZoomLevel = Math.min(fsZoomLevel + 0.5, 5); var img = document.getElementById('fullscreenImg'); if(img) img.style.transform = 'scale(' + fsZoomLevel + ')'; }
+  if (e.key === '-') { fsZoomLevel = Math.max(fsZoomLevel - 0.5, 1); var img2 = document.getElementById('fullscreenImg'); if(img2) img2.style.transform = 'scale(' + fsZoomLevel + ')'; }
+});
+
+// 双击全屏图片缩放
+document.addEventListener('dblclick', function(e) {
+  var fs = document.getElementById('fullscreenOverlay');
+  if (!fs.classList.contains('active')) return;
+  if (e.target === document.getElementById('fullscreenImg') || e.target.closest('.fullscreen-img-wrap')) {
+    toggleFsZoom();
+  }
+});
+
+// ==================== 主页显示 ====================
+function showPage(page) {
+  hideDetail();
+}
+</script>
+
+</body>
+</html>
